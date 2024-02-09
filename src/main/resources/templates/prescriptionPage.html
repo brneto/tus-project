@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="common/header :: common-header"
+      xmlns:th="http://www.w3.org/1000/xhtml"/>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" th:href="@{https://cdn.datatables.net/v/ju/dt-1.10.20/datatables.min.css}"/>
+<title>Home Page</title>
+</head>
+<body>
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-3" style="background-color:Blue height:30px">
+            <h1 class="h3">Scrum Team C</h1>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+<div class="row mb-5">
+    <div class="container">
+        <div class="col-12">
+            <a class="btn btn-warning btn-lg" th:href="@{/}">Logout</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- View All patients =======================================================-->
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+        <div class="card z-depth-0 bordered">
+            <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour">
+                        <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>View your prescription
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="panel-body" th:if="${allPrescriptions.isEmpty()}">
+                        Looks like you have no prescription
+                    </div>
+                    <div class="panel-body" th:if="${!allPrescriptions.isEmpty()}">
+
+                        <table style="width:100%" cellborder="1" class="table table-bordered table-hover table-striped"
+                               id="prescriptionListTable">
+                            <thead>
+                            <tr>
+                                <th> Patient Name</th>
+                                <th> Prescription Description</th>
+                                <th> Date Assigned</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pre: ${allPrescriptions}">
+                                <td><span th:text="${pre.patient.name}"> </span></td>
+                                <td><textarea rows="6" th:text="${pre.description}">  </textarea></td>
+                                <td><span th:text="${pre.date}">  </span></td>
+
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+</div>
+</div>
+
+
+</div>
+</div>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+<script type="text/javascript" th:src="@{https://cdn.datatables.net/v/ju/dt-1.10.20/datatables.min.js}"></script>
+</body>
+</html>

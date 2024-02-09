@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+
+<!--  Header and Navigation --->
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-1" style="background-color:Blue height:30px">
+            <h1><a class="h3 nav-link">Scrum Team C</a></h1>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+
+<!-- Content - Container Element -->
+<div class="row">
+    <div class="container">
+
+        <!-- HSE Login ----------------------------------------------------------------------------------------------------------->
+        <div class="row mb-4">
+            <div class="col-sm-12">
+                <form action="#" method="post" th:action="@{/hseLogin}" th:object="${login}">
+                    <h3 class="mb-4"><i aria-hidden="true" class="fa fa-fw fa-hospital-o"></i>HSE</h3>
+                    <div class="form-group mb-2">
+                        <label for="hseUsername">Username:</label>
+                        <input type="text" class="form-control" id="hseUsername" th:field="*{username}"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="hsePassword">Password:</label>
+                        <input type="password" class="form-control" id="hsePassword" th:field="*{password}"/>
+                    </div>
+                    <button class="btn btn-primary" type="submit"><i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Login
+                    </button>
+                    <span class="alert alert-danger" th:if="${invalidDetails}">Invalid Details</span>
+                </form>
+            </div>
+        </div>
+
+        <!-- End of HSE Login section ----------------------------------------------------------------------------------------------------------->
+
+        <hr class="mb-4 mt-4">
+
+        <!-- General Practioner (GP) & Pharmacist Login-------------------------------------------------------------------------------->
+        <div class="row mb-5">
+            <div class="col-sm-6">
+                <form action="#" method="post" th:action="@{/gpLogin}" th:object="${login}">
+                    <h3 class="mb-4"><i aria-hidden="true" class="fa fa-fw fa-user-md"></i>General Practioners(GP)</h3>
+                    <div class="form-group mb-2">
+                        <label for="gpusername">Username:</label>
+                        <input type="text" class="form-control" id="gpusername" th:field="*{username}"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="gpPassword">Password:</label>
+                        <input type="password" class="form-control" id="gppassword" th:field="*{password}"/>
+                    </div>
+                    <button class="btn btn-info" type="submit"><i aria-hidden="true"
+                                                                       class="fa fa-fw fa-sign-in"></i>Login
+                    </button>
+                    <span class="alert alert-danger" th:if="${invalidGpDetails}">Invalid Details</span>
+                </form>
+            </div>
+
+            <!-- Pharmacist Login -->
+            <div class="col-sm-6">
+                <form action="#" method="post" th:action="@{/pharmacistLogin}" th:object="${login}">
+                    <h3 class="mb-4"><i aria-hidden="true" class="fa fa-fw fa-medkit">Pharamcist</i></h3>
+                    <div class="form-group mb-2">
+                        <label for="pharmausername">Username:</label>
+                        <input type="text" class="form-control" id="pharmausername" th:field="*{username}"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="pharmaPassword">Password:</label>
+                        <input type="password" class="form-control" id="pharmaPassword" th:field="*{password}"/>
+                    </div>
+                    <button class="btn btn-success" type="submit"><i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Login
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- End of GP and Pharmacist section=========================================================================================== -->
+
+        <hr class="mb-4 mt-4" size="50">
+
+        <!-- Other Staffs & Patients================================================================================= -->
+        <div class="row mb-5">
+            <div class="col-sm-6">
+                <h3 class="mb-4"><i aria-hidden="true" class="fa fa-fw fa-users"></i>Other Staff Members</h3>
+                <form action="#" method="post" th:action="@{/osmLogin}" th:object="${login}">
+
+                    <div class="form-group mb-2">
+                        <label for="pharmausername">Username:</label>
+                        <input type="text" class="form-control" id="osmusername" th:field="*{username}"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="pharmaPassword">Password:</label>
+                        <input type="password" class="form-control" id="osmPassword" th:field="*{password}"/>
+                    </div>
+                    <button class="btn btn-success" type="submit"><i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Patient -->
+
+            <div class="col-sm-6">
+                <form action="#" method="post" th:action="@{/patientLogin}" th:object="${login}">
+                    <h3 class="mb-4"><i aria-hidden="true" class="fa fa-fw fa-user"></i>Patient</h3>
+                    <div class="form-group mb-2">
+                        <label for="patientusername">Username:</label>
+                        <input type="text" class="form-control" id="patientusername" th:field="*{username}"/>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="patientpassword">Password:</label>
+                        <input type="password" class="form-control" id="patientpassword" th:field="*{password}"/>
+                    </div>
+                    <button class="btn btn-warning" type="submit"><i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Login
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script crossorigin="anonymous" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

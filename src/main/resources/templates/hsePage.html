@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.datatables.net/v/ju/dt-1.10.20/datatables.min.css}"/>
+</head>
+<body>
+<!--  Header and Navigation --->
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-1" style="background-color:lightblue; height:30px">
+            <h3>Scrum Team C</h3>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+<h1 style="text-align: center;">Welcome to Hse page</h1>
+<br/>
+<div class="container">
+
+
+    <div class="row" style="margin-top: 80px; width: 80%;">
+
+        <div class="col-xs-9 col-xs-offset-3">
+            <!--        5 DIFFERENT TABS       -->
+
+            <ul class="nav nav-tabs">
+                <li><a href="#tab-1" data-toggle="tab"><span
+                        style="color: black; font-size: 2rem;">Other Admin</span></a></li>
+                <li><a href="#tab-2" data-toggle="tab"><span
+                        style="color: black; font-size: 2rem;">GP</span></a></li>
+                <li><a href="#tab-3" data-toggle="tab"><span
+                        style="color: black; font-size: 2rem;">Pharmacist</span></a></li>
+
+                <li><a href="#tab-4" data-toggle="tab"><span
+                        style="color: black; font-size: 2rem;">Patient</span></a></li>
+
+                <li><a href="#tab-5" data-toggle="tab"><span
+                        style="color: black; font-size: 2rem;">Other Staff</span></a></li>
+
+            </ul>
+
+            <!------------------ 			Tab Content					------ ---->
+
+            <div class="tab-content" style="width: 100%;">
+
+                <div class="tab-pane fade in active" id="tab-1">
+
+                    <div class="panel-group" id="accordion">
+
+                        <!--  View Other Admins-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#viewAdmin"> 1. View Admins </a>
+                                </h4>
+                            </div>
+
+                            <div id="viewAdmin" class="panel-collapse collapse">
+                                <div class="panel-body" th:if="${hseUsers.isEmpty()}">
+                                    No HSE users available
+                                </div>
+                                <div class="panel-body" th:if="${!hseUsers.isEmpty()}">
+                                    <table id="hseListTable" class="table table-bordered table-hover table-striped"
+                                           style="width:100%">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> e-mail</th>
+                                            <th> Badge No.</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr data-th-each="hseUser : ${hseUsers}">
+                                            <td><span th:text="${hseUser.name}"> Name </span></td>
+                                            <td><span th:text="${hseUser.username}"> Username </span></td>
+                                            <td><span th:text="${hseUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${hseUser.badgeNo}"> Badge No. </span></td>
+                                            <td><span th:text="${hseUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#createAdmin"> 2. Create Admins </a>
+                                </h4>
+                            </div>
+
+                            <div id="createAdmin" class="panel-collapse collapse">
+                                <div class="panel-body">
+
+                                    <form action="#" th:action="@{/createAdmin}" method="post"
+                                          th:object="${credentials}">
+
+                                        <div class="form-group mb-2">
+                                            <label for="hseusername">Username:</label> <input
+                                                class="form-control" id="hseusername" th:field="*{username}"
+                                                type="text">
+                                            <span style="color: red;"
+                                                  th:if="${hseUsernameExist}">Username Already Exist </span>
+
+
+                                            <!--                                                                             th:if="${username_greater_than_15}">Username should-->
+                                            <!--													not be more than 15</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                     th:if="${Admin_Already_exist}">Username already-->
+                                            <!--													exist</span>-->
+
+
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hsepassword">Password:</label> <input
+                                                class="form-control" id="hsepassword" th:field="*{password}"
+                                                type="text">
+
+                                            <!--                                            <span class="alert alert-danger"&ndash;&gt;-->
+                                            <!--                                                                       th:if="${password_less_than_5}">password should be-->
+                                            <!--													more than 5</span> <span class="alert alert-danger"-->
+                                            <!--                                                                             th:if="${password_greater_than_15}">Password should-->
+                                            <!--													not be more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hseemail">Email Address:</label> <input
+                                                class="form-control" id="hseemail" th:field="*{email}"
+                                                type="email">
+                                            <span style="color: red;"
+                                                  th:if="${hseEmailExist}">Email Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                    th:if="${invalidEmail}">Email is invalid</span>-->
+                                            <!--                                            <span-->
+                                            <!--                                                    class="alert alert-danger" th:if="${emailExist}">Email-->
+                                            <!--													already exist</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hsename">Name:</label> <input
+                                                class="form-control" id="hsename" th:field="*{name}"
+                                                type="text">
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_less_than_2}">Name should be more than-->
+                                            <!--													2</span> <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_greater_than_15}">Name should not be-->
+                                            <!--													more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hsebadgeno">Badge No:</label> <input
+                                                class="form-control" id="hsebadgeno" th:field="*{badgeNo}"
+                                                type="text">
+                                            <span style="color: red;" th:if="${hseBadgeExist}">Badge Number Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${badgeno_less_than_4}">Badge number should-->
+                                            <!--													be more than 4</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                th:if="${badgeno_greater_than_6}">Badge number-->
+                                            <!--													should not be more than 6</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                           th:if="${badgeExist}">Badge number already exist</span>-->
+                                        </div>
+                                        <!--                                        <span class="alert alert-danger"-->
+                                        <!--                                              th:if="${all_fields_required}">All fields are-->
+                                        <!--												required</span>-->
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Create
+                                        </button>
+                                        <span style="color: teal;" th:if="${hseCreated}">Hse created </span>
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#updateAdmin"> 3. Update Admins </a>
+                                </h4>
+                            </div>
+
+                            <div id="updateAdmin" class="panel-collapse collapse"
+                                 th:classappend="${hseUpdateUser}? 'in active'">
+                                <div class="panel-body">
+
+
+                                    <form th:action="@{/hseUpdateUser}" method="post" action="#">
+                                        <p>Enter the user's details</p>
+                                        <div class="form-group mb-2">
+                                            <label for="hseusername">Enter User's username
+                                            </label> <input th:value="${hseUsername}" name="hseUsername"
+                                                            class="form-control"
+                                                            type="text" minlength="5" maxlength="15">
+                                            <span th:if="${hseUpdateUserUsernameNotExist}"
+                                                  style="color: red;font-size: 1.6rem;">Username doesnt exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hseEmail">Enter User's new Email address
+                                            </label> <input th:value="${hseEmail}" name="hseEmail"
+                                                            class="form-control"
+                                                            type="email" minlength="10">
+                                            <span th:if="${hseUpdateUserEmailExist}"
+                                                  style="color: red;font-size: 1.6rem;">Email already exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hseEmail">Enter User's new Name
+                                            </label> <input th:value="${hseName}" name="hseName"
+                                                            class="form-control"
+                                                            type="text" minlength="2" maxlength="17">
+
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Update
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${hseUpdateUserSuccess}">Update Successful</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#deactivateAdmin"> 4. Deactivate Admin Account </a>
+                                </h4>
+                            </div>
+
+                            <div id="deactivateAdmin" class="panel-collapse collapse"
+                                 th:classappend="${classDeactivateHse}? 'in active'">
+                                <div class="panel-body">
+                                    <form th:action="@{/deactivateHse}" method="post" action="#">
+                                        <div class="form-group mb-2">
+                                            <label for="deactivateBadge">Enter Badge number to deactivate
+                                                account:</label> <input th:value="${credentials.badgeNo}" name="badgeNo"
+                                                                        class="form-control"
+                                                                        type="text" minlength="4" maxlength="7">
+                                            <!-- <span style="color: red;">-->
+                                            <!-- th:if="${hseUsernameExist}">Username Already Exist </span>-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Deactivate
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${deactivatedHse}">Hse has been deactivated</span>
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!--  End of Accordion-->
+
+
+                </div>
+
+                <div class="tab-pane fade " id="tab-2"
+                >
+
+
+                    <!--   Gp Accordion-->
+                    <div class="panel-group" id="accordion">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#viewGp"> 1. View Gps/Doctors </a>
+                                </h4>
+                            </div>
+
+                            <div id="viewGp" class="panel-collapse collapse">
+                                <div class="panel-body" th:if="${gpUsers.isEmpty()}">
+                                    No doctors available
+                                </div>
+                                <div class="panel-body" th:if="${!gpUsers.isEmpty()}">
+                                    <table style="width:100%" id="gpListTable" class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> E-Mail</th>
+                                            <th> Badge No.</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="gpUser : ${gpUsers}">
+                                            <td><span th:text="${gpUser.name}"> Name </span></td>
+                                            <td><span th:text="${gpUser.username}"> Username </span></td>
+                                            <td><span th:text="${gpUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${gpUser.badgeNo}"> Badge No. </span></td>
+                                            <td><span th:text="${gpUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#createGp"> 2. Create Gp/Doctors </a>
+                                </h4>
+                            </div>
+
+                            <div id="createGp" class="panel-collapse collapse">
+                                <div class="panel-body">
+
+                                    <form action="#" th:action="@{/createGp}" method="post" th:object="${credentials}">
+
+                                        <div class="form-group mb-2">
+                                            <label for="gpusername">Username:</label> <input
+                                                class="form-control" id="gpusername" th:field="*{username}"
+                                                type="text">
+                                            <span style="color: red;"
+                                                  th:if="${gpUsernameExist}">Username Already Exist </span>
+
+
+                                            <!--                                                                             th:if="${username_greater_than_15}">Username should-->
+                                            <!--													not be more than 15</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                     th:if="${Admin_Already_exist}">Username already-->
+                                            <!--													exist</span>-->
+
+
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="gppassword">Password:</label> <input
+                                                class="form-control" id="gppassword" th:field="*{password}"
+                                                type="text">
+
+                                            <!--                                            <span class="alert alert-danger"&ndash;&gt;-->
+                                            <!--                                                                       th:if="${password_less_than_5}">password should be-->
+                                            <!--													more than 5</span> <span class="alert alert-danger"-->
+                                            <!--                                                                             th:if="${password_greater_than_15}">Password should-->
+                                            <!--													not be more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="gpemail">Email Address:</label> <input
+                                                class="form-control" id="gpemail" th:field="*{email}"
+                                                type="email">
+                                            <span style="color: red;"
+                                                  th:if="${gpEmailExist}">Email Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                    th:if="${invalidEmail}">Email is invalid</span>-->
+                                            <!--                                            <span-->
+                                            <!--                                                    class="alert alert-danger" th:if="${emailExist}">Email-->
+                                            <!--													already exist</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="gpname">Name:</label> <input
+                                                class="form-control" id="gpname" th:field="*{name}"
+                                                type="text">
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_less_than_2}">Name should be more than-->
+                                            <!--													2</span> <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_greater_than_15}">Name should not be-->
+                                            <!--													more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="hsebadgeno">Badge No:</label> <input
+                                                class="form-control" id="gpbadgeno" th:field="*{badgeNo}"
+                                                type="text">
+                                            <span style="color: red;"
+                                                  th:if="${gpBadgeExist}">Badge Number Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${badgeno_less_than_4}">Badge number should-->
+                                            <!--													be more than 4</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                th:if="${badgeno_greater_than_6}">Badge number-->
+                                            <!--													should not be more than 6</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                           th:if="${badgeExist}">Badge number already exist</span>-->
+                                        </div>
+                                        <!--                                        <span class="alert alert-danger"-->
+                                        <!--                                              th:if="${all_fields_required}">All fields are-->
+                                        <!--												required</span>-->
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Create
+                                        </button>
+                                        <span style="color: teal;" th:if="${gpCreated}">Gp created </span>
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#updateGp"> 3. Update Gp/Doctors </a>
+                                </h4>
+                            </div>
+
+                            <div id="updateGp" class="panel-collapse collapse"
+                                 th:classappend="${gpUpdateUser}? 'in active'">
+                                <div class="panel-body">
+                                    <form th:action="@{/gpUpdateUser}" method="post" action="#">
+                                        <p>Enter the user's details</p>
+                                        <div class="form-group mb-2">
+                                            <label for="gpusername">Enter User's username
+                                            </label> <input th:value="${gpUsername}" name="gpUsername"
+                                                            class="form-control"
+                                                            type="text" minlength="5" maxlength="15">
+                                            <span th:if="${gpUpdateUserUsernameNotExist}"
+                                                  style="color: red;font-size: 1.6rem;">Username doesnt exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="gpEmail">Enter User's new Email address
+                                            </label> <input th:value="${gpEmail}" name="gpEmail"
+                                                            class="form-control"
+                                                            type="email" minlength="10">
+                                            <span th:if="${gpUpdateUserEmailExist}"
+                                                  style="color: red;font-size: 1.6rem;">Email already exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="gpEmail">Enter User's new Name
+                                            </label> <input th:value="${gpName}" name="gpName"
+                                                            class="form-control"
+                                                            type="text" minlength="2" maxlength="17">
+
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Update
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${gpUpdateUserSuccess}">Update Successful</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#deactivateGp"> 4. Deactivate Gp/Doctors Account </a>
+                                </h4>
+                            </div>
+
+                            <div id="deactivateGp" class="panel-collapse collapse"
+                                 th:classappend="${classDeactivateGp}? 'in active'">
+                                <div class="panel-body">
+                                    <form th:action="@{/deactivateGp}" method="post">
+                                        <div class="form-group mb-2">
+                                            <label for="deactivateBadge">Enter Gp's Badge number to deactivate
+                                                account:</label> <input
+                                                class="form-control"
+                                                type="text" th:value="${credentials.badgeNo}" name="badgeNo"
+                                                minlength="4" maxlength="7">
+                                            <!--                                        <span style="color: red;">-->
+                                            <!--                                              th:if="${hseUsernameExist}">Username Already Exist </span>-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Deactivate
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${deactivatedGp}">Gp has been deactivated</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="tab-pane fade " id="tab-3"
+                >
+
+                    <!-- 	 Pharmacist Accordion-->
+                    <div class="panel-group" id="accordion">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#viewPharmacist"> 1. View Pharmacist</a>
+                                </h4>
+                            </div>
+
+                            <div id="viewPharmacist" class="panel-collapse collapse">
+                                <div class="panel-body" th:if="${pharmaUsers.isEmpty()}">
+                                    No pharmacist available
+                                </div>
+                                <div class="panel-body" th:if="${!pharmaUsers.isEmpty()}">
+                                    <table style="width:100%" id="pharmaListTable" class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> E-Mail</th>
+                                            <th> Badge No.</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="pharmaUser : ${pharmaUsers}">
+                                            <td><span th:text="${pharmaUser.name}"> Name </span></td>
+                                            <td><span th:text="${pharmaUser.username}"> Username </span></td>
+                                            <td><span th:text="${pharmaUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${pharmaUser.badgeNo}"> Badge No. </span></td>
+                                            <td><span th:text="${pharmaUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#createPharmacist"> 2. Create Pharmacist </a>
+                                </h4>
+                            </div>
+
+                            <div id="createPharmacist" class="panel-collapse collapse">
+                                <div class="panel-body">
+
+                                    <form action="#" th:action="@{/createPharmacist}" method="post"
+                                          th:object="${credentials}">
+
+                                        <div class="form-group mb-2">
+                                            <label for="pharmausername">Username:</label> <input
+                                                class="form-control" id="pharmausername" th:field="*{username}"
+                                                type="text">
+                                            <span style="color: red;"
+                                                  th:if="${gpUsernameExist}">Username Already Exist </span>
+
+
+                                            <!--                                                                             th:if="${username_greater_than_15}">Username should-->
+                                            <!--													not be more than 15</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                     th:if="${Admin_Already_exist}">Username already-->
+                                            <!--													exist</span>-->
+
+
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmapassword">Password:</label> <input
+                                                class="form-control" id="pharmapassword" th:field="*{password}"
+                                                type="text">
+
+                                            <!--                                            <span class="alert alert-danger"&ndash;&gt;-->
+                                            <!--                                                                       th:if="${password_less_than_5}">password should be-->
+                                            <!--													more than 5</span> <span class="alert alert-danger"-->
+                                            <!--                                                                             th:if="${password_greater_than_15}">Password should-->
+                                            <!--													not be more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmaemail">Email Address:</label> <input
+                                                class="form-control" id="pharmaemail" th:field="*{email}"
+                                                type="email">
+                                            <span style="color: red;"
+                                                  th:if="${pharmaEmailExist}">Email Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                    th:if="${invalidEmail}">Email is invalid</span>-->
+                                            <!--                                            <span-->
+                                            <!--                                                    class="alert alert-danger" th:if="${emailExist}">Email-->
+                                            <!--													already exist</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmaname">Name:</label> <input
+                                                class="form-control" id="pharmaname" th:field="*{name}"
+                                                type="text">
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_less_than_2}">Name should be more than-->
+                                            <!--													2</span> <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_greater_than_15}">Name should not be-->
+                                            <!--													more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmabadgeno">Badge No:</label> <input
+                                                class="form-control" id="pharmabadgeno" th:field="*{badgeNo}"
+                                                type="text">
+                                            <span style="color: red;" th:if="${pharmaBadgeExist}">Badge Number Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${badgeno_less_than_4}">Badge number should-->
+                                            <!--													be more than 4</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                th:if="${badgeno_greater_than_6}">Badge number-->
+                                            <!--													should not be more than 6</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                           th:if="${badgeExist}">Badge number already exist</span>-->
+                                        </div>
+                                        <!--                                        <span class="alert alert-danger"-->
+                                        <!--                                              th:if="${all_fields_required}">All fields are-->
+                                        <!--												required</span>-->
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Create
+                                        </button>
+                                        <span style="color: teal;" th:if="${pharmaCreated}">Pharmacist created </span>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#updatePharmacist"> 3. Update Pharmacist </a>
+                                </h4>
+                            </div>
+
+                            <div id="updatePharmacist" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form th:action="@{/pharmaUpdateUser}" method="post" action="#">
+                                        <p>Enter the user's details</p>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmausername">Enter User's username
+                                            </label> <input th:value="${pharmaUsername}" name="pharmaUsername"
+                                                            class="form-control"
+                                                            type="text" minlength="5" maxlength="15">
+                                            <span th:if="${pharmaUpdateUserUsernameNotExist}"
+                                                  style="color: red;font-size: 1.6rem;">Username doesnt exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmaEmail">Enter User's new Email address
+                                            </label> <input th:value="${pharmaEmail}" name="pharmaEmail"
+                                                            class="form-control"
+                                                            type="email" minlength="10">
+                                            <span th:if="${pharmaUpdateUserEmailExist}"
+                                                  style="color: red;font-size: 1.6rem;">Email already exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="pharmaEmail">Enter User's new Name
+                                            </label> <input th:value="${pharmaName}" name="pharmaName"
+                                                            class="form-control"
+                                                            type="text" minlength="2" maxlength="17">
+
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Update
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; "
+                                              th:if="${pharmaUpdateUserSuccess}">Update Successful</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#deactivatePharmacist"> 4. Deactivate Pharmacist
+                                        Account </a>
+                                </h4>
+                            </div>
+
+                            <div id="deactivatePharmacist" class="panel-collapse collapse"
+                                 th:classappend="${classDeactivatePharma}? 'in active'">
+                                <div class="panel-body">
+
+                                    <form method="post" th:action="@{/deactivatePharma}">
+                                        <div class="form-group mb-2">
+                                            <label for="deactivateBadge">Enter Pharmacist's Badge number to deactivate
+                                                account:</label> <input
+                                                class="form-control"
+                                                type="text" th:value="${credentials.badgeNo}" name="badgeNo"
+                                                minlength="4" maxlength="7">
+                                            <!--                                        <span style="color: red;">-->
+                                            <!--                                              th:if="${hseUsernameExist}">Username Already Exist </span>-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Deactivate
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${deactivatedPharma}">Pharmacist has been deactivated</span>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!--  End of Accordion-->
+
+                </div>
+
+                <div class="tab-pane fade " id="tab-4">
+
+                    <!-- Patient Accordion -->
+                    <div class="panel-group" id="accordion">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#viewPatient"> 1. View Patient</a>
+                                </h4>
+                            </div>
+
+                            <div id="viewPatient" class="panel-collapse collapse">
+                                <div class="panel-body" th:if="${patientUsers.isEmpty()}">
+                                    No patient available
+                                </div>
+                                <div class="panel-body" th:if="${!patientUsers.isEmpty()}">
+                                    <table style="width:100%" id="patientListTable" class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> E-Mail</th>
+                                            <th> Emergency ID</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="patientUser : ${patientUsers}">
+                                            <td><span th:text="${patientUser.name}"> Name </span></td>
+                                            <td><span th:text="${patientUser.username}"> Username </span></td>
+                                            <td><span th:text="${patientUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${patientUser.emergencyId}"> Emergency ID </span></td>
+                                            <td><span th:text="${patientUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#updatePatient"> 2. Update Patient </a>
+                                </h4>
+                            </div>
+
+                            <div id="updatePatient" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form th:action="@{/patientUpdateUser}" method="post" action="#">
+                                        <p>Enter the user's details</p>
+                                        <div class="form-group mb-2">
+                                            <label for="patientusername">Enter User's username
+                                            </label> <input th:value="${patientUsername}" name="patientUsername"
+                                                            class="form-control"
+                                                            type="text" minlength="5" maxlength="15">
+                                            <span th:if="${patientUpdateUserUsernameNotExist}"
+                                                  style="color: red;font-size: 1.8rem;">Username doesnt exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="patientEmail">Enter User's new Email address
+                                            </label> <input th:value="${patientEmail}" name="patientEmail"
+                                                            class="form-control"
+                                                            type="email" minlength="10">
+                                            <span th:if="${patientUpdateUserEmailExist}"
+                                                  style="color: red;font-size: 1.8rem;">Email already exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="patientEmail">Enter User's new Name
+                                            </label> <input th:value="${patientName}" name="patientName"
+                                                            class="form-control"
+                                                            type="text" minlength="2" maxlength="17">
+
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Update
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; "
+                                              th:if="${patientUpdateUserSuccess}">Update Successful</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#deactivatePatient"> 3. Deactivate Patient Account
+                                    </a>
+                                </h4>
+                            </div>
+
+                            <div id="deactivatePatient" class="panel-collapse collapse"
+                                 th:classappend="${classDeactivatePatient}? 'in active'">
+                                <div class="panel-body">
+                                    <form th:action="@{/deactivatePatient}" method="post">
+                                        <div class="form-group mb-2">
+                                            <label for="deactivateBadge">Enter Patient's Username number to deactivate
+                                                account:</label> <input
+                                                class="form-control"
+                                                type="text" th:value="${credentials.username}" name="username"
+                                                minlength="5" maxlength="15">
+                                            <!--                                        <span style="color: red;">-->
+                                            <!--                                              th:if="${hseUsernameExist}">Username Already Exist </span>-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Deactivate
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${deactivatedPatient}">Patient has been deactivated</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!--  End of Accordion-->
+
+
+                </div>
+
+                <div class="tab-pane fade " id="tab-5"
+                >
+
+                    <!-- 	 Patient Accordion-->
+                    <div class="panel-group" id="accordion">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#viewOther"> 1. View Other Staff Members</a>
+                                </h4>
+                            </div>
+
+                            <div id="viewOther" class="panel-collapse collapse">
+                                <div class="panel-body" th:if="${osmUsers.isEmpty()}">
+                                    No other staff member available
+                                </div>
+                                <div class="panel-body" th:if="${!osmUsers.isEmpty()}">
+                                    <table style="width:100%" id="osmListTable" class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> E-Mail</th>
+                                            <th> Badge No.</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="osmUser : ${osmUsers}">
+                                            <td><span th:text="${osmUser.name}"> Name </span></td>
+                                            <td><span th:text="${osmUser.username}"> Username </span></td>
+                                            <td><span th:text="${osmUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${osmUser.badgeNo}"> Badge No. </span></td>
+                                            <td><span th:text="${osmUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#createOther"> 2. Create Other Member Staff </a>
+                                </h4>
+                            </div>
+
+                            <div id="createOther" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form action="#" th:action="@{/createOsm}" method="post" th:object="${credentials}">
+
+                                        <div class="form-group mb-2">
+                                            <label for="osmusername">Username:</label> <input
+                                                class="form-control" id="osmusername" th:field="*{username}"
+                                                type="text">
+                                            <span style="color: red;"
+                                                  th:if="${osmUsernameExist}">Username Already Exist </span>
+
+
+                                            <!--                                                                             th:if="${username_greater_than_15}">Username should-->
+                                            <!--													not be more than 15</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                     th:if="${Admin_Already_exist}">Username already-->
+                                            <!--													exist</span>-->
+
+
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmpassword">Password:</label> <input
+                                                class="form-control" id="osmpassword" th:field="*{password}"
+                                                type="text">
+
+                                            <!--                                            <span class="alert alert-danger"&ndash;&gt;-->
+                                            <!--                                                                       th:if="${password_less_than_5}">password should be-->
+                                            <!--													more than 5</span> <span class="alert alert-danger"-->
+                                            <!--                                                                             th:if="${password_greater_than_15}">Password should-->
+                                            <!--													not be more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmemail">Email Address:</label> <input
+                                                class="form-control" id="osmemail" th:field="*{email}"
+                                                type="email">
+                                            <span style="color: red;"
+                                                  th:if="${osmEmailExist}">Email Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                    th:if="${invalidEmail}">Email is invalid</span>-->
+                                            <!--                                            <span-->
+                                            <!--                                                    class="alert alert-danger" th:if="${emailExist}">Email-->
+                                            <!--													already exist</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmname">Name:</label> <input
+                                                class="form-control" id="osmname" th:field="*{name}"
+                                                type="text">
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_less_than_2}">Name should be more than-->
+                                            <!--													2</span> <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${name_greater_than_15}">Name should not be-->
+                                            <!--													more than 15</span>-->
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmbadgeno">Badge No:</label> <input
+                                                class="form-control" id="osmbadgeno" th:field="*{badgeNo}"
+                                                type="text">
+                                            <span style="color: red;" th:if="${osmBadgeExist}">Badge Number Already Exist </span>
+                                            <!--                                            <span class="alert alert-danger"-->
+                                            <!--                                                                   th:if="${badgeno_less_than_4}">Badge number should-->
+                                            <!--													be more than 4</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                th:if="${badgeno_greater_than_6}">Badge number-->
+                                            <!--													should not be more than 6</span> <span class="alert alert-danger"-->
+                                            <!--                                                                                           th:if="${badgeExist}">Badge number already exist</span>-->
+                                        </div>
+                                        <!--                                        <span class="alert alert-danger"-->
+                                        <!--                                              th:if="${all_fields_required}">All fields are-->
+                                        <!--												required</span>-->
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Create
+                                        </button>
+                                        <span style="color: teal;"
+                                              th:if="${osmCreated}">Other staff member created </span>
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#updateOther"> 3. Update Other member staff </a>
+                                </h4>
+                            </div>
+
+                            <div id="updateOther" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <form th:action="@{/osmUpdateUser}" method="post" action="#">
+                                        <p>Enter the user's details</p>
+                                        <div class="form-group mb-2">
+                                            <label for="osmusername">Enter User's username
+                                            </label> <input th:value="${osmUsername}" name="osmUsername"
+                                                            class="form-control"
+                                                            type="text" minlength="5" maxlength="15">
+                                            <span th:if="${osmUpdateUserUsernameNotExist}"
+                                                  style="color: red;font-size: 1.6rem;">Username doesnt exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmEmail">Enter User's new Email address
+                                            </label> <input th:value="${osmEmail}" name="osmEmail"
+                                                            class="form-control"
+                                                            type="email" minlength="10">
+                                            <span th:if="${osmUpdateUserEmailExist}"
+                                                  style="color: red;font-size: 1.6rem;">Email already exist</span>
+                                        </div>
+                                        <div class="form-group mb-2">
+                                            <label for="osmEmail">Enter User's new Name
+                                            </label> <input th:value="${osmName}" name="osmName"
+                                                            class="form-control"
+                                                            type="text" minlength="2" maxlength="17">
+
+                                        </div>
+
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Update
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${osmUpdateUserSuccess}">Update Successful</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#deactivateOther"> 4. Deactivate Other staff
+                                        members Account </a>
+                                </h4>
+                            </div>
+
+                            <div id="deactivateOther" class="panel-collapse collapse"
+                                 th:classappend="${classDeactivateOsm}? 'in active'">
+                                <div class="panel-body">
+                                    <form th:action="@{/deactivateOsm}" method="post">
+                                        <div class="form-group mb-2">
+                                            <label for="deactivateBadge">Enter other staff member badge number to
+                                                deactivate account:</label> <input
+                                                class="form-control"
+                                                type="text" th:value="${credentials.badgeNo}" name="badgeNo"
+                                                minlength="4" maxlength="7">
+                                            <!--                                        <span style="color: red;">-->
+                                            <!--                                              th:if="${hseUsernameExist}">Username Already Exist </span>-->
+
+
+                                        </div>
+
+                                        <button class="btn btn-primary" type="submit">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>Deactivate
+                                        </button>
+                                        <span style="color: green; font-size: 1.8rem; " th:if="${deactivatedOsm}">Other staff member  has been deactivated</span>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!--  End of Accordion-->
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="logOutButton">
+        <a class="btn btn-primary" type="submit" th:href="@{/}">LOG OUT</a>
+    </div>
+
+
+    <!--  End of container-->
+</div>
+
+<footer>
+    <div class="container">
+        <p class="text=center mr-auto ml-auto">SCRUM TEAM C &copy2020.
+            All rights reserved</p>
+    </div>
+</footer>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{https://cdn.datatables.net/v/ju/dt-1.10.20/datatables.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+</body>
+</html>

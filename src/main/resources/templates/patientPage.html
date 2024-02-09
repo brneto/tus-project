@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"
+      xmlns:th="http://www.w3.org/1000/xhtml"/>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Home Page</title>
+</head>
+<body>
+
+<!--  Header and Navigation --->
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-3" style="background-color:Blue height:30px">
+            <h1 class="h3">Scrum Team C</h1>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+
+<div class="row">
+    <div class="container">
+        <div class="col-12">
+            <a class="btn btn-warning btn-lg" th:href="@{/}">Logout</a>
+        </div>
+    </div>
+</div>
+<!-- Content - Container Element -->
+<div class="row">
+    <div class="container">
+        <div style="Background-color:black;" class="mb-4">
+            <h2 class="text-white p-2">Patient Information</h2></div>
+        <section class="mb-4">
+            <p><i class="fa fa-fw fa-user" aria-hidden="true"></i>  Name: <b><span th:text="${patient.name}"></span></b></p>
+            <p><i class="fa fa-fw fa-user-circle" aria-hidden="true"></i>Username: <b><span th:text="${patient.username}"></span></b><br>
+            <p><i class="fa fa-fw fa-envelope-square" aria-hidden="true"></i>  Email: <b><span th:text="${patient.email}"></span></b></p>
+            <p><i class="fa fa-fw fa-ambulance" aria-hidden="true"></i>  Emergency ID: <b><span th:text="${patient.emergencyId}"></span></b></p>
+        </section>
+
+
+        <div class="accordion" id="accordionExample">
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                            View Prescription
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                     data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class = "col-sm-6">
+                            <form th:action="@{/getPrescription}" method="post">
+                            <div class="form-group">
+                                <label> Enter your username:</label>
+<!--                                <input type="hidden" th:value="${patient.name}" name="patientUsername">-->
+                                <input type="text" th:value="${patientUsername}" name="patientUsername" class="form-control" placeholder="Enter your username to view prescription" required minlength="5" maxlength="15">
+                                <button class="btn btn-primary" type="submit">
+                                    <i aria-hidden="true" class="fa fa-fw fa-sign-in"></i>View</button>
+                                <span th:if="${getPatientNotExist}" style="color: red;font-size: 1.6rem;">Patient doenst exist</span>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            View General Practioner (GP)
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        View General Practioners (GP)
+                    </div>
+                </div>
+            </div>
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            View Pharmacist
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        View Pharmacist
+                    </div>
+                </div>
+            </div>
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Update Password
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <form action="#" method="post">
+                            <div class="row">
+                                <div class="container">
+                                    <div class = "col-sm-6">
+                                        <div class="form-group">
+                                            <input type="password" name="oldPassword" class="form-control" placeholder="Old Password" required>
+                                        </div>
+                                    </div>
+                                    <div class = "col-sm-6">
+                                        <div class="form-group">
+                                            <input type="password" name="oldPassword" class="form-control" placeholder="New Password" required>
+                                        </div>
+                                    </div>
+                                    <div class = "col-sm-6">
+                                        <a href="#" class="btn btn-info col-3">Update Password</a>
+                                    </div>
+                                    <div class = "col-sm-6">
+                                        <span class="alert text-danger">Passwords do not match!!!!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <footer>
+        <div class="container">
+            <p class="text=center mr-auto ml-auto">SCRUM TEAM C &copy2020. All rights reserved</p>
+        </div>
+    </footer>
+</div>
+<script crossorigin="anonymous" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

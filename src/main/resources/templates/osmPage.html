@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Other Staff Members</title>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+<!--  Header and Navigation --->
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-1" style="background-color:lightblue; height:30px">
+            <h3>Scrum Team C</h3>
+        </div>
+        <div style="background-color:skyblue; height:15px"></div>
+    </nav>
+</header>
+
+<h1 style="text-align: center">Welcome to Other Staff Members page</h1>
+<br/>
+<div class="container">
+    <div class="row" style="margin-top: 80px; width: 80%;">
+        <div class="col-xs-9 col-xs-offset-3">
+            <!-- Tab Header -->
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="#tab-4" data-toggle="tab"><span style="color: black; font-size: 2rem;">Patient</span></a>
+                </li>
+            </ul>
+            <!-- Tab Content -->
+            <div class="tab-content" style="width: 100%;">
+                <div class="tab-pane fade in active" id="tab-1">
+                    <!--  View Patients -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#viewPatient">
+                                    1. View Patients
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="viewPatient" class="panel-collapse collapse">
+                            <div class="panel-body" th:if="${patientUsers.isEmpty()}">
+                                No patient available
+                            </div>
+                            <div class="panel-body" th:if="${!patientUsers.isEmpty()}">
+                                <table style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th> Name </th>
+                                        <th> Username </th>
+                                        <th> E-Mail </th>
+                                        <th> Emergency ID </th>
+                                        <th> Active </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="patientUser : ${patientUsers}">
+                                        <td><span th:text="${patientUser.name}"> Name </span></td>
+                                        <td><span th:text="${patientUser.username}"> Username </span></td>
+                                        <td><span th:text="${patientUser.email}"> E-Mail </span></td>
+                                        <td><span th:text="${patientUser.emergencyId}"> Emergency ID </span></td>
+                                        <td><span th:text="${patientUser.active}"> Active </span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="logOutButton">
+    <a class="btn btn-primary" type="submit" th:href="@{/}" style="margin-top: 50px;">LOG OUT</a>
+</div>
+
+<!--  End of container-->
+<footer>
+    <div class="container">
+        <p class="text=center mr-auto ml-auto">SCRUM TEAM C &copy2020.
+            All rights reserved</p>
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

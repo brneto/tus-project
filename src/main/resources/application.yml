@@ -1,0 +1,52 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/practise?createDatabaseIfNotExist=true&autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: Danieldd11
+    platform: mysql
+    initialization-mode: always
+    data: classpath:db/*.sql
+  jpa:
+    #show or not log for each query
+    show-sql: on
+    generate-ddl: on
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: on
+        use_sql_comments: on
+
+#server:
+#  port: 8081
+#
+#spring:
+#  thymeleaf:
+#    cache: false
+#  jpa:
+#    #show or not log for each query
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/practise
+#    username: root
+#
+#    password: Danieldd11
+#
+#
+#
+#    driver-class-name: com.mysql.jdbc.Driver
+#    dbcp2:
+#      # Keep the connection alive if idle for a long time
+#      test-while-idle: true
+#      validationQuery: SELECT 1

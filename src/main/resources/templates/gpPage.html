@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"
+      xmlns:th="http://www.w3.org/1000/xhtml"/>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Home Page</title>
+</head>
+<body>
+
+<!--  Header and Navigation --->
+<header class="mb-5">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-3" style="background-color:Blue height:30px">
+            <h1 class="h3">Scrum Team C</h1>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+<div class="row mb-5">
+    <div class="container">
+        <div class="col-12">
+            <a class="btn btn-warning btn-lg" th:href="@{/}">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-sm-6 mb-5">
+
+                <div class="accordion" id="accordionExample">
+                    <div class="card z-depth-0 bordered">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <span><i class="fa fa-fw fa-plus" aria-hidden="true"></i></span> Create Patient
+                                </button>
+                            </h5>
+                        </div>
+
+                        <!-- This section create patient details ======================================-->
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                <form action="#" method="post" th:action="@{/createPatient}"
+                                      th:object="${patientCredentials}">
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" th:field="*{username}"
+                                               id="patientUsername" placeholder="Register Username">
+                                        <span th:if="${patientUsernameExist}" style="color: red; font-size: 1.5rem;">This username already exist</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="email" th:field="*{email}" id="patientEmail"
+                                               placeholder="Register Email">
+                                        <span th:if="${patientEmailExist}" style="font-size: 1.5rem;color: red;">This email already exist</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" th:field="*{emergencyId}"
+                                               id="patientEmergencyId" placeholder="Enter Emergency ID">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" th:field="*{password}"
+                                               id="patientPassword" placeholder="Enter Secure Password">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" th:field="*{name}" id="patientName"
+                                               placeholder="Enter the patients name">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" th:field="*{gpUsername}"
+                                               placeholder="Enter the GP's username" minlength="5" maxlength="15">
+                                        <span th:if="${gpCreatePatientNotExist}" style="color: red; font-size: 1.6rem;">It looks like there is no Gp with that username</span>
+
+                                    </div>
+                                    <button class="btn btn-primary" type="submit"><span><i class="fa fa-fw fa-plus"
+                                                                                           aria-hidden="true"></i></span>Create
+                                        Record
+                                    </button>
+                                    <span th:if="${patientCreated}" style="color: green;font-size: 2rem;">Patient has been created </span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This section reads patient details ===========================================================-->
+            <div class="col-sm-6 mb-5">
+                <div class="accordion" id="accordionExample">
+                    <div class="card z-depth-0 bordered">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <span><i class="fa fa-fw fa-book" aria-hidden="true"></i></span> Read Patient
+                                    Details
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="panel-body" th:if="${patientUsers.isEmpty()}">
+                                    No patient available
+                                </div>
+                                <div class="panel-body" th:if="${!patientUsers.isEmpty()}">
+                                    <table style="width:100%" id="patientListTable" class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Username</th>
+                                            <th> E-Mail</th>
+                                            <th> Emergency ID</th>
+                                            <th> Active</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="patientUser : ${patientUsers}">
+                                            <td><span th:text="${patientUser.name}"> Name </span></td>
+                                            <td><span th:text="${patientUser.username}"> Username </span></td>
+                                            <td><span th:text="${patientUser.email}"> E-Mail </span></td>
+                                            <td><span th:text="${patientUser.emergencyId}"> Emergency ID </span></td>
+                                            <td><span th:text="${patientUser.active}"> Active </span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--- This section updates patient details ======================================================-->
+        <div class="row mb-4">
+            <div class="col-sm-6 mb-5">
+                <div class="accordion" id="accordionExample">
+                    <div class="card z-depth-0 bordered">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                    <span><i class="fa fa-fw fa-pencil-square-o" aria-hidden="true"></i></span> Update
+                                    Patient Record
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+
+                                <form action="#" method="put">
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" name="patientName" id="patientName"
+                                               placeholder="Register Username">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="email" name="patientEmail" id="patientEmail"
+                                               placeholder="Register Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="text" name="patientEmId" id="patientEmId"
+                                               placeholder="Enter Emergency ID">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" type="password" name="patientPassword"
+                                               id="patientPassword" placeholder="Enter Secure Password">
+                                    </div>
+                                    <a class="btn btn-warning"><span><i class="fa fa-fw fa-plus" aria-hidden="true"></i></span>Update
+                                        Record</a>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This section simply writes prescription for patients ======================== -->
+
+            <div class="col-sm-6 mb-5">
+                <div class="accordion" id="accordionExample">
+                    <div class="card z-depth-0 bordered">
+                        <div class="card-header" id="headingFour">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    <span><i class="fa fa-fw fa-plus" aria-hidden="true"></i></span> Create Prescription
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                             data-parent="#accordionExample" th:classappend="${createPrescription}? 'in active'">
+                            <div class="card-body">
+                                <form th:action="@{/createPrescription}" method="post">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="patientUsername"
+                                               placeholder="Enter Patient's Username" th:value="${patientUsername}" required minlength="5" maxlength="15">
+                                        <span th:if="${patientNotExistCreatePrescription}" style="color: red; font-size: 1.6rem;"> It seems patient with this  doesnt exist</span>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="timePrescribe">Date of prescription:</label>
+                                    <input type="date"
+                                            name="pDate" th:value="${pDate}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <textarea class="form-control rounded-0" id="prescription" name="prescriptionDescription"th:value="${prescriptionDescription}"
+                                                  rows="5" required maxlength="1000"></textarea>
+                                    </div>
+                                    <button class="btn btn-success"><i class="fa fa-fw fa-plus-square-o"
+                                                                       aria-hidden="true"></i>Create Prescription
+                                    </button>
+                                    <span th:if="${createPrescriptionSuccess}" style="color: green; font-size: 1.6rem;"> Prescription added</span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--============================== Section to Update GP Password ===================================== -->
+
+            <div class="col-sm-6 mb-5">
+                <div class="accordion" id="accordionExample">
+                    <div class="card z-depth-0 bordered">
+                        <div class="card-header" id="headingFive">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                        data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    <span><i class="fa fa-fw fa-plus" aria-hidden="true"></i></span> Update Password
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive"
+                             data-parent="#accordionExample">
+                            <div class="card-body">
+                                <form th:action="@{/updateGpPassword}" method="post">
+                                    <div class="row">
+                                        <div class="container">
+
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+                                                    <label for="username">Enter your username to confirm it is
+                                                        you:</label>
+                                                    <input type="text" class="form-control" placeholder="Username"
+                                                           required th:value="${username}" name="username" minlength="5"
+                                                           maxlength="15">
+                                                    <span th:if="${updateGpPasswordUsernameNotExist}"
+                                                          style="color: red; font-size: 1.4rem;">Username doesnt exit</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+
+                                                    <input type="text" class="form-control" placeholder="Old Password"
+                                                           required th:value="${oldPassword}" name="oldPassword"
+                                                           minlength="5" maxlength="15">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="New Password"
+                                                           required th:value="${newPassword}" minlength="5"
+                                                           maxlength="15" name="newPassword">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-info"><i class="fa fa-fw fa-pencil-square-o"
+                                                                                aria-hidden="true"></i>Update Password
+                                                </button>
+                                                <span th:if="${updateGpPasswordSuccess}"
+                                                      style="color: green;font-size: 1.5rem;">Update Successful</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<script crossorigin="anonymous" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

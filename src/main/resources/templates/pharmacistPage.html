@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="common/header :: common-header"
+      xmlns:th="http://www.w3.org/1000/xhtml"/>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Home Page</title>
+</head>
+<body>
+
+<!--  Header and Navigation --->
+<header class="mb-sm-4">
+    <nav>
+        <div style="background-color:SkyBlue; height:15px"></div>
+        <div class="p-3" style="background-color:Blue height:30px">
+            <h1 class="h3">Scrum Team C</h1>
+        </div>
+        <div style="background-color:SkyBlue; height:15px"></div>
+    </nav>
+</header>
+
+<div class="row mb-5">
+    <div class="container">
+        <div class="col-12">
+            <a class="btn btn-warning btn-lg" th:href="@{/}">Logout</a>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <div class="container">
+        <div class="col-sm-6 mb-5">
+            <div class="accordion" id="accordionExample">
+                <div class="card z-depth-0 bordered">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <span><i class="fa fa-fw fa-eye" aria-hidden="true"></i></span> View Patient
+                                Prescription
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Emergency ID</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Change Password Pharmacist =======================================================-->
+        <div class="col-sm-6 mb-5">
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>Update Password
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample"th:classappend="${updatePharmaPassword}? 'in active'" >
+                    <div class="card-body">
+                        <form th:action="@{/updatePharmaPassword}" method="post">
+                            <div class="row">
+                                <div class="container">
+
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="username">Enter your username to confirm it is you:</label>
+                                            <input type="text" class="form-control" placeholder="Username"
+                                                   required th:value="${username}" name="username" minlength="5" maxlength="15">
+                                            <span th:if="${updatePasswordUsernameNotExist}" style="color: red; font-size: 1.4rem;">Username doesnt exit</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+
+                                            <input type="text" class="form-control" placeholder="Old Password"
+                                                   required th:value="${oldPassword}" name="oldPassword" minlength="5" maxlength="15">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="New Password"
+                                                   required th:value="${newPassword}" minlength="5" maxlength="15" name="newPassword">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-info"><i class="fa fa-fw fa-pencil-square-o"
+                                                                        aria-hidden="true"></i>Update Password
+                                        </button>
+                                        <span th:if="${updatePharmaPasswordSuccess}" style="color: green;font-size: 1.5rem;">Update Successful</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- View All patients =======================================================-->
+        <div class="col-sm-6 mb-5">
+            <div class="card z-depth-0 bordered">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour">
+                            <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>View Patients
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample" >
+                    <div class="card-body">
+                        <div class="panel-body" th:if="${patientUsers.isEmpty()}">
+                            No patient available
+                        </div>
+                        <div class="panel-body" th:if="${!patientUsers.isEmpty()}">
+                            <table style="width:100%" id="patientListTable" class="table table-bordered table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th> Name</th>
+                                    <th> Username</th>
+                                    <th> E-Mail</th>
+                                    <th> Emergency ID</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="patientUser : ${patientUsers}">
+                                    <td><span th:text="${patientUser.name}"> Name </span></td>
+                                    <td><span th:text="${patientUser.username}"> Username </span></td>
+                                    <td><span th:text="${patientUser.email}"> E-Mail </span></td>
+                                    <td><span th:text="${patientUser.emergencyId}"> Emergency ID </span></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
